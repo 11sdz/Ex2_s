@@ -1,5 +1,6 @@
 #include "my_mat.h"
 #include <stdio.h>
+#include <limits.h>
 
 void choose_a_b(int mat[][10] ,int row ,int col ,char func){
     int a=-1 ,b =-1;
@@ -18,7 +19,7 @@ void choose_a_b(int mat[][10] ,int row ,int col ,char func){
     }
 }
 
-void main(){
+int main(){
     char func='Q';
     int row=10 , col=10;
     int mat[row][col];

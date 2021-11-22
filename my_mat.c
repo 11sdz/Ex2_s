@@ -28,17 +28,14 @@ void get_matrix (int mat[][10] , int row , int col){
 	for(int i=0; i < row ; i+=1){
 		for(int j=0; j< col; j+=1){
 				scanf("%d",&x);
-				*mat[i*col+j] *=x;
-				*mat[j*col+i] *=x;
-				//* if x=0 then no route between 2 vertex so we initialize it to be infinity
+				*mat[i*col+j]=x;
+				//* if x=0 then no route between 2 vertex so we initialize it to be -1 (we look as like in infinity in floyd algo below)
 				//** if i==j then it is the same vertex and get value of 0
 				if((x==0) && (i!=j)){
-					*mat[i*col+j]=INT_MAX;
-					*mat[j*col+i]=INT_MAX;
+					*mat[i*col+j]=-1;
 				}
 		}
 	}
-	
 	flag=False;
 }
 
@@ -72,7 +69,11 @@ int is_shortest_route (int mat[][10],int row ,int col, int a, int b){
 
 //returning minimum value
 int get_min(int x, int y){
-	return (x<y) ? x : y;
+	if(x<y){
+		return x;
+	}else{
+		return y;
+	}
 }
 
 //floyd_warshall algo https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
@@ -83,20 +84,22 @@ void floyd_warshall(int mat[][10],int row ,int col){
 				int i_to_j=*mat[i*col+j];
 				int i_to_k=*mat[i*col+k];
 				int k_to_j=*mat[k*col+j];
-				*mat[i*col+j]=get_min(i_to_j , i_to_k + k_to_j);
+					if( (i_to_j==-1) && (i_to_k==-1) ){
+						*mat[i*col+j]=-1;
+						*mat[j*col+i]=-1;
+					}
+					else if( (i_to_j==-1) && ((i_to_k!=-1) && (k_to_j!=-1))){
+						*mat[i*col+j]=i_to_k+k_to_j;
+						*mat[j*col+i]=i_to_k+k_to_j;
+					}else if(i_to_j!=-1 && (i_to_k==-1 || k_to_j==-1)){
+						*mat[i*col+j]=i_to_j;
+						*mat[j*col+i]=i_to_j;
+					}else if(i_to_j!=-1 && i_to_k!=-1 && k_to_j!=-1){
+						int ans=get_min(i_to_j , i_to_k + k_to_j);
+						*mat[i*col+j]=ans;
+						*mat[j*col+i]=ans;
+					}
 			}
 		}
 	}
-	for(int i=0;i<10;i+=1){
-		for(int j=0;j<10;j+=1){
-			if(i==j){
-				*mat[i*col+j]=0;
-			}
-			int finalize=*mat[i*col+j];
-			if(finalize==INT_MAX){
-				*mat[i*col+j]=-1;
-			}
-		}
-	}
-
 }
