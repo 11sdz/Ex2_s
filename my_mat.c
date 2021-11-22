@@ -41,6 +41,9 @@ void get_matrix (int mat[][10] , int row , int col){
 
  //return if there is a route from a to b
  int is_there_route(int mat[][10],int row, int col, int a ,int b){
+	 if(a==b){
+		 return False;
+	 }
 	 int answer;
 	 if(flag==False){
 		 floyd_warshall(mat,row,col);
@@ -57,6 +60,9 @@ void get_matrix (int mat[][10] , int row , int col){
 
 //return the shortest route from a to b (by value)
 int is_shortest_route (int mat[][10],int row ,int col, int a, int b){
+	if(a==b){
+		return -1;
+	}
 	int answer;
 	if(flag==False){
  		 floyd_warshall(mat,row,col);
