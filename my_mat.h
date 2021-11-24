@@ -13,10 +13,13 @@
 #define _stdio_h_
 #endif
 
-void get_matrix (int[][10], int ,int);
-
-int is_there_route(int[][10] , int, int, int, int);
-
-int is_shortest_route (int[][10], int, int , int, int);
+//**initialize global variable type Integer** used if wanted to check by smaller matrix
+int extern nRowCol;
+//** get new adj matrix by user
+void get_matrix (int[][nRowCol]);
+//** is there route from a to b
+int is_there_route(int[][nRowCol] ,int ,int);
+//** return value of route from a to b
+int is_shortest_route (int[][nRowCol] ,int ,int);
 
 #endif
